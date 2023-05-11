@@ -1,0 +1,248 @@
+
+
+// Import React and React Native components
+import React, { useState } from 'react';
+import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native';
+
+// Define a custom component for each book item
+const BookItem = ({ book }) => {
+  return (
+    <View style={{ padding: 10, borderBottomWidth: 6, borderColor: 'green' }}>
+      <Text style={{ fontSize: 20 }}>{book.title}</Text>
+      <Text style={{ fontSize: 18, color: '#555' }}>{book.author}</Text>
+      <Text style={{ fontSize: 16, color: '#999' }}>{book.availability ? 'Available' : 'Not available'} at {book.location}</Text>
+    </View>
+  );
+};
+
+// Define a custom component for the book list screen
+const BookListScreen = () => {
+  // Define some dummy data for testing
+  const books = [
+    {
+      id: '1',
+      title: 'OOP And Mobile App development',
+      author: 'J.R.R. Tolkien',
+      availability: true,
+      location: 'Shelf A1',
+    },
+    {
+      id: '2',
+      title: 'Advanced Data stuctures',
+      author: 'J.K. Rowling',
+      availability: false,
+      location: 'Shelf B2',
+    },
+    {
+      id: '3',
+      title: 'Network Administration',
+      author: 'Douglas Adams',
+      availability: true,
+      location: 'Shelf C3',
+    },
+    {
+      id: '4',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '5',
+      title: 'Business Communication',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D5',
+    },
+    {
+      id: '6',
+      title: 'Quantitative Techniques',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D6',
+    },
+    {
+      id: '7',
+      title: 'Embedded System Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D7',
+    },
+    {
+      id: '8',
+      title: 'Emerging Network Tech',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D8',
+    },
+    {
+      id: '9',
+      title: 'IT Projects',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D9',
+    },
+    {
+      id: '10',
+      title: 'Structure of cameroon econnomy',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D10',
+    },
+    {
+      id: '11',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '12',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '13',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '14',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '15',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '16',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '17',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '18',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '19',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+    {
+      id: '20',
+      title: 'Network Design',
+      author: 'Suzanne Collins',
+      availability: false,
+      location: 'Shelf D4',
+    },
+  ];
+
+  // Define a state variable for the search query
+  const [query, setQuery] = useState('');
+
+  // Define a function to filter the books based on the query
+  const filterBooks = (query) => {
+    // If the query is empty, return all books
+    if (query === '') {
+      return books;
+    }
+
+    // Convert the query to lower case for case-insensitive matching
+    const lowerQuery = query.toLowerCase();
+
+    // Return the books that match the query by title, author, or keyword
+    return books.filter((book) => {
+      return (
+        book.title.toLowerCase().includes(lowerQuery) ||
+        book.author.toLowerCase().includes(lowerQuery) ||
+        book.keywords?.some((keyword) => keyword.toLowerCase().includes(lowerQuery))
+      );
+    });
+  };
+
+  // Define a function to handle the text input change
+  const handleInputChange = (text) => {
+    // Update the query state
+    setQuery(text);
+  };
+
+  // Define a function to handle the book item press
+  const handleItemPress = (book) => {
+    // Navigate to the book details screen with the book data
+    // You can use React Navigation or any other navigation library for this
+    // For simplicity, we just log the book title here
+    console.log('You pressed on', book.title);
+  };
+
+  // Render the book list screen UI
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={{ padding: 38 }}>
+      
+      <Text>
+  
+  WELCOME TO CHITECHMA'S ONLINE LIABRARY
+  {""}
+</Text>
+
+        <TextInput
+          style={{ height: 55,  borderColor: 'green', borderWidth: 6, borderRadius: 5 }}
+          placeholder="Search by title, author, or keyword"
+          value={query}
+          onChangeText={handleInputChange}
+        />
+      </View>
+      <FlatList
+        data={filterBooks(query)}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleItemPress(item)}>
+            <BookItem book={item} />
+          </TouchableOpacity>
+        )}
+        ListEmptyComponent={<Text style={{ textAlign: 'center', padding: 10 }}>No books found</Text>}
+      />
+    </View>
+  );
+};
+
+// Export the book list screen component
+export default BookListScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
